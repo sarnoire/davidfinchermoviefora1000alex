@@ -1,0 +1,129 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "David Fincher Movie API",
+    "version": "1.0.0",
+    "description": "API for retrieving and managing data about David Fincher movies"
+  },
+  "paths": {
+    "/movies": {
+      "get": {
+        "summary": "Retrieve all movies",
+        "responses": {
+          "200": {
+            "description": "A list of movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/{id}": {
+      "get": {
+        "summary": "Retrieve a single movie by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the movie to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A movie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a single movie by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the movie to update",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated movie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "director": {
+            "type": "string"
+          }
+        }
+      },
+      "MovieUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "director": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
