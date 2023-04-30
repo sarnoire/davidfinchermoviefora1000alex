@@ -1,23 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const Thought = require('../models/thought');
-const Reaction = require('../models/reaction');
+const router = require('express').Router();
+const {
+  createReaction,
+  deleteReaction
+} = require('../../controllers/reactionController');
 
-router.post('/thoughts/:thoughtId/reactions', async (req, res) => {
-  try {
-    const { thoughtId } = req.params;
-    const thought = await Thought.findById(thoughtId);
-    if (!thought) {
-      throw new Error('Thought not found');
-    }
-    const reaction = new Reaction(req.body);
-    thought.reactions.push(reaction);
-    await thought.save();
-    res.status(201).send(reaction);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+// POST to create a reaction stored in a single thought's reactions array field
+router.route('/:thoughtId').post(createReaction);
+
+// DELETE to pull and remove a reaction by the reaction's reactionId value
+router.route('/:thoughtId/:reactionId').delete(deleteReaction);
 
 module.exports = router;
 
